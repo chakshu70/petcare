@@ -14,7 +14,7 @@ Best Creches In Your Area
 <div  style ={{width:285}} className=" border-2  border-x-yellow-200  bg-yellow-100 rounded-xl" role="button "  >
 <img src="dd.jpg" className="h-1/2 rounded-xl"></img>
 <div>
-    <p>Creche Name</p>
+    <p>Lexi day care</p>
     <p>rating</p>
     <p>Adress</p>
 <button className="bg-slate-300 text-red-500 rounded-xl">View details</button>

@@ -6,95 +6,14 @@ import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { useSearchParams } from "react-router-dom";
 import { useState } from 'react';
+import ReviewBox from './reviews';
+import { useContext } from 'react';
+import SignInContext from '../context/sigincontext/signinContext';
+import Nav from './navbar';
 function New() {
 
-// let [e,setE]=useState("");
-
-//     function find(param) {
-//         const params=useParams();
-// const [queryParams]=useSearchParams();
-// let q=queryParams.get(param)
-//         return q;
-//     }
-//     let a=find('id');
-//     let location=find('location')
-// console.log("ais:"+a+"lo is"+location)
-
-//     useEffect(() => {
-    
-    
-//                     fetch(`http://localhost:3000/biggercard?id=${a}&location=${location}`).then(response =>{ 
-//                         // console.log("This is response",response)
-//                         return response.json();
-//                     }
-//                     )
-//                     .then(data=>{
-//                         // setE(data);
-//                         console.log("This is data",data)
-//                         setE(data);
-//                 }) 
-//             },[]);
-
-
-
-
-//     const SampleNextArrow = (props) => {
-//         const { className, style, onClick } = props;
-//         return (
-//             <div
-//                 className={className}
-//                 style={{ ...style, backgroundColor: 'black' }} // Change color here
-//                 onClick={onClick}
-//             />
-//         )
-//     }
-  
-
-//     // const e = {
-//     //     name: "Lexi day care",
-//     //     displayimg: "https://assets.petbacker.com/user-images/320/u_2c08f572e6.60bd2c6f08346.jpg",
-//     //     certificate: [
-//     //         "https://content.petbacker.com/images/cms/icons/credentials/id.png",
-//     //         "https://content.petbacker.com/images/cms/icons/credentials/id.png",
-//     //         "https://content.petbacker.com/images/cms/icons/credentials/id.png"
-//     //     ],
-//     //     location: "Chandigarh",
-//     //     shortdescription: "Love to handle your furry pets. Number of pets",
-//     //     price: 500,
-//     //     rating: 3,
-//     //     ownername: "sumegha",
-//     //     allimg: [
-//     //         "https://assets.petbacker.com/user-images/320/u_2c08f572e6.60bd2c6f08346.jpg",
-//     //         "https://assets.petbacker.com/user-images/320/u_2c08f572e6.60bd2c6f08346.jpg",
-//     //         "https://assets.petbacker.com/user-images/320/u_2c08f572e6.60bd2c6f08346.jpg",
-//     //         "https://assets.petbacker.com/user-images/320/u_2c08f572e6.60bd2c6f08346.jpg",
-//     //         "https://assets.petbacker.com/user-images/320/u_2c08f572e6.60bd2c6f08346.jpg"
-//     //     ]
-//     //     ,
-//     //     fulldescription:"I m gursimran , i have 1 golden retreiver and had a shih tzu .. I love him like my own family memberI’m a pet lover  I love dogs instantly and I would pamper it and always have it by my side I enjoy spending time with dogs as they are so adorable :)I own golden retriever now and i had shihtzuu 2 years backYour pet can roam anywhere even on bed and couchI love dogs"
-//     //     ,
-//     //     skills: ["Dog Walking", "Pet Sitting", "Pet Grooming", "Pet Training", "Dog Boarding"] ,
-//     //     summary:"I m gursimran , i have 1 golden retreiver and had a shih tzu .. I love him like my own" ,
-//     //     noofpetswatched:"4",
-//     //     petsize:[{src:"icon_01.png",weight:"0-5kg"},{src:"icon_02.png",weight:"5-10kg"},{src:"icon_03.png",weight:"10-20kg"},{src:"icon_04.png",weight:"20-40kg"},{src:"icon_05.png",weight:"40kg+"}]
-//     //    ,
-//     //     pottybreaks:"3",
-//     //     typeOfHome:"Apartment",
-//     //     EmergencyTransport:"Yes" ,
-//     //     petTypeAccepted:["Dogs", "Cats", "Birds", "Fish", "Reptiles"],
-//     //     price:500
-//     // };
-
-//     const settings = {
-//         dots: true,
-//         infinite: true,
-//         speed: 500,
-//         slidesToShow: 2,
-//         slidesToScroll: 2,
-//         nextArrow: <SampleNextArrow />,
-//         prevArrow: <SampleNextArrow />,
-//         adaptiveHeight: true // Enable adaptive height
-//     };
+const abc=useContext(SignInContext);
+console.log(abc.User.userName);
 
 const [e, setE] = useState(null);
 const [loading, setLoading] = useState(true);
@@ -104,6 +23,7 @@ const [queryParams] = useSearchParams();
 
 const a = queryParams.get('id');
 const location = queryParams.get('location');
+
 
 useEffect(() => {
     const fetchData = async () => {
@@ -123,6 +43,16 @@ useEffect(() => {
 
     fetchData();
 }, [a, location]);
+
+// const updateReviews =(newvalue)=>{
+//     console.log("inside bigger card",newvalue)
+// setE(prevData=>({
+//     ...prevData,
+//     reviews:[...prevData.reviews,newvalue]
+// }))
+// console.log("inside bigger card 2",e.reviews)
+
+// }
 
 const SampleNextArrow = (props) => {
     const { className, style, onClick } = props;
@@ -161,8 +91,14 @@ if (!e) {
     return (
         <>
         <div className='grid grid-cols-4 gap-4'>
+
             {/* left grid */}
             <div className=" col-span-3 p-4">
+
+            <div className='mb-2 -mt-10 w-full'>
+             <Nav/>
+
+             </div>
                 {/* top name */}
                 <div className="flex ">
                     <img src="dd.jpg" className="h-24 w-24 rounded-full" alt="Display" />
@@ -274,7 +210,7 @@ if (!e) {
                     <div className="text-xl  mt-10 font-semibold">Accepted Pet size</div>
                     <div className=" mt-3 flex justify-evenly w-full">{e.petsize.map((e,i)=>{
                         return (
-                            <div className='p-5 pt-0 items-center'>
+                            <div key={i} className='p-5 pt-0 items-center'>
                         <img key={i} src={e.src} alt="" className='h-10 w-10 m-2'/>
                         <p>{e.weight}</p>
                             </div>
@@ -309,7 +245,10 @@ if (!e) {
                  <div className='m-10 border border-red-500'>
                     <div className='text-2xl flex flex-start m-2 text-blue-700 font-bold '>Reviews</div>
                     <div className='flex flex-start align-start m-auto'>
+                    <ReviewBox  prereviews={e.reviews} crecheName={e.name} location={location}  />
+
                     </div>
+
                     </div>
                     <hr/>
 
@@ -318,7 +257,7 @@ if (!e) {
                 </div>
 
 {/* right grid */}
-<div class="fixed top-4 right-4  bg-white border  shadow-lg  ">
+<div className="fixed top-4 right-4  bg-white border  shadow-lg  ">
 <div className='border'>
     <div className=' bg-slate-200 h-14 text-3xl text-center'> Services and Rates</div>
   

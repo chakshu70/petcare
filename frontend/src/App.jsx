@@ -1,41 +1,29 @@
 import React from 'react'
 import './App.css'
-import Nav from './components/navbar'
-import Top from './components/display2'
-import Second from './components/2nd'
-import Third from './components/3rd'
-import Footer from './components/footer'
-import Searchbar from './components/searchbar'
+
 import Contact from './pages/contact'
 import Home from './pages/home'
 import SignIn from './pages/signin'
-// import React from 'react';
-// import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Rough4 from './rough/rough4'
-import Rough5 from './rough/rough5'
 import Search from './pages/search'
-import Rough2 from './rough/rough2'
-import R6 from './rough/r6'
-import R7 from './rough/r7'
-// import BestSeller from './rough/r8'
+
 import New from './components/biggercard'
+import UserProfilepage from './pages/userprofile'
 
-
+import { Provider } from 'react-redux'
+import R9 from './rough/r9'
+import SignInContext from './context/sigincontext/signinContext'
+import SigninO from './context/sigincontext/signinState'
 function App(){
   
-// const [search, setSearch] = React.useState('')
-// fetch('http://localhost:3000/getdata').then(response => response.text()).then(data => {console.log(data)
-//   setSearch(data)
-// }
-// )
+
 
   return (
     <>
 
-{/* <div>{search}</div> */}
   
-
+<SigninO>
+  
 <Router>
       <main>
         
@@ -49,13 +37,14 @@ function App(){
         </Routes>
       </main>
     </Router>
+    </SigninO>
 {/* <Top/>
 
         <Second/>
         <Third/>
        <Footer/>  */}
        
-{/* <New/> */}
+{/* <R9/> */}
     </>
   )
 }

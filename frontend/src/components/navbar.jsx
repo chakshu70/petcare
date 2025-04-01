@@ -3,12 +3,14 @@ import React from "react"
 import Home from "../pages/home";
 import SignIn from "../pages/signin.jsx";
 // import React from 'react';
-// import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom/client';
 import { Link } from 'react-router-dom';
-
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import SignInContext from "../context/sigincontext/signinContext.js";
+import { useContext } from "react";
 const Nav=()=>{
   
-  // #FAFAD2
+ const username=useContext(SignInContext);
 
   return (
     <>
@@ -35,8 +37,24 @@ const Nav=()=>{
     <div className='flex justify-center items-center gap-4 px-10'>
           
   
-<Link to="/signin">Sign in</Link>
+
+       {username.User.userName?
+       <div className="flex">
+        <img src="d2.jpg" className="rounded-full h-10 w-10"/>
+
+        <div className="p-2">
+       {username.User.userName}
+        </div>
+
+         </div>
          
+         :
+        <div>
+
+          <Link to="/signin">Sign in</Link>
+          </div>
+       
+       }
 
     
   

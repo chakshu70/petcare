@@ -2,8 +2,8 @@ import React from "react";
 import alllocation from "../assets/locations.json"
 import { Link } from 'react-router-dom';
 
-const Searchbar=({onChange,gotlocation})=>{
-let key="PetCare"
+const Searchbar=({gotlocation})=>{
+
     
     const [location, setLocation] = React.useState(gotlocation ? gotlocation : "Select your location");
 
@@ -17,9 +17,9 @@ if(location==="Select your location"){
 
 function chooseLocation(event){
     setLocation(event.target.value);
-    console.log(event.target.value);
-    onChange(event.target.value); // Call the function passed from the parent
-    location.reload();
+    console.log(event.target.value);    
+    // location.reload();
+    
 
 }
       

@@ -84,6 +84,7 @@ app.post('/signin', (req, res) => {
         const user = users[username];
         if (user && user === password) {
             console.log("logged in");
+            res.send({status:"loggedin"})
         } else {
             console.log("not logged in");
             users[username] = password;
@@ -94,12 +95,55 @@ fs.writeFile('users.json', JSON.stringify(users), (err) => {
                 res.status(500).send('Internal Server Error');
                 return;
             }
-            res.send({ status: 'success' });
+            res.send({status:"signedin"})
+
         }
         );
         }
     });
 })
+
+app.post('/updatereviews', (req, res) => {
+    console.log("this is",req.body);
+    const a= { username, newreviews,location,crecheName } = req.body;
+    console.log(a.username,"this is username");
+    console.log(a.newreviews,"this is new reviews");
+    console.log(a.location,"this is location");
+    console.log(a.crecheName,"this is creche name");
+  console.log(a.newreviews,"tis jnk");    
+    fs.readFile('locationinfo.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        const Data = JSON.parse(data);
+        const locationToChange = Data[location];
+        if (!locationToChange) {
+            console.log("not found location from update review");
+        } else {
+            console.log("found location logged in");
+            // users.push({ username, password });
+            locationToChange.map((e,i)=>{
+
+                if(e.name==crecheName){
+                     e.reviews=a.newreviews ;
+                    return;
+                }
+            })
+fs.writeFile('locationinfo.json', JSON.stringify(Data,"nn",2), (err) => {
+            if (err) {
+                console.error(err);
+                res.status(500).send('Internal Server Error');
+                return;
+            }
+            res.send({ status: 'success' });
+        });
+        }
+    });
+    
+}
+)
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
