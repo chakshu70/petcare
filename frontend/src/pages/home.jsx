@@ -15,29 +15,44 @@ import SignIn from './signin'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
+import { Calendar } from '@/components/ui/calendar'
+import { useState } from 'react'
 
 function App(){
-  // const { isAuthenticated, username } = useSelector((state) => state);
+  const [selectedDate, setSelectedDate] = useState(null);
 
-  
-
+  const handleDateChange = (date) => {
+    console.log("jelo");
+    
+    setSelectedDate(date);
+  };
   return (
+    
     <>
-{/* {isAuthenticated ? (
-                        <div>Welcome, {username}!</div>
-                    ) : (
-                        <div>sign in</div>
-                    )} */}
+<div className='-m-7'>
 <Nav/>
 
 <Top/>
+<Third/>
 
         <Second/>
-        <Third/>
        <Footer/> 
        
- 
+       </div>
+                      {/* <div>
+      <h2>Select a Date</h2>
+      <input
+        type="text"
+        value={selectedDate ? selectedDate.toLocaleDateString() : ''}
+        readOnly
+        placeholder="Select a date"
+      />
+      <Calendar
+        selected={selectedDate}
+        onSelect={handleDateChange}
+      />
+    </div> */}
+
     </>
   )
 }

@@ -3,13 +3,13 @@ import Searchbar from "./searchbar";
 const Top=()=>{
 return(
     <>
-    <div className="container">
-<div >
+    <div className="container w-full h-96 rounded-lg mt-2 ">
+<div className="">
 
 
-<div className="relative w-full h-full ">
-    <img src="/dd.jpg" className="w-full h-full   "></img>
-</div>
+<div className="relative w-full h-full boreder-4   "style={{width:'1140px'}}>
+    <img src="/dd.jpg" className="rounded-lg" ></img>
+    </div>
 
 <div className="absolute top-20   flex flex-col items-center left-36">
     <div className="text-white   right-36 text-7xl mb-4 mt-6 font-title  w-96">

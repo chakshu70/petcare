@@ -1,7 +1,6 @@
 import React from 'react'
 import './App.css'
 
-import Contact from './pages/contact'
 import Home from './pages/home'
 import SignIn from './pages/signin'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -14,37 +13,89 @@ import { Provider } from 'react-redux'
 import R9 from './rough/r9'
 import SignInContext from './context/sigincontext/signinContext'
 import SigninO from './context/sigincontext/signinState'
-function App(){
-  
+import PrivateRoute from './routes/privateroutes'
+import OwnerHome from './pages/owner/ownerhome'
+import RegisterCreche from './pages/owner/registercreche'
+import IsLoggedIn from './routes/isLoggedIn'
+import Booking from './pages/Booking'
+import Contact from './pages/about';
+import ContactX from './pages/about';
+import About from './pages/about';
+import ContactUs from './pages/contact';
+function App() {
+
 
 
   return (
     <>
 
-  
-<SigninO>
-  
-<Router>
-      <main>
-        
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/signin" element={<SignIn />} /> 
-           <Route path="/contact" element={<Contact />} />
-           <Route path="/search" element={<Search/>}/>
-           <Route path="/biggercard" element={<New/>}/>
 
-        </Routes>
-      </main>
-    </Router>
-    </SigninO>
-{/* <Top/>
+
+
+      <SigninO>
+        <Router>
+          <main>
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<Home />} />
+              <Route path="/registercreche" element={<RegisterCreche />} />
+
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<ContactUs />} />
+
+              {/* Protected Routes for Both Users and Owners */}
+              <Route
+                path="/search"
+                element={
+                  <Search />
+                }
+              />
+              <Route
+                path="/biggercard"
+                element={
+                  <New />
+                }
+              />
+
+              {/* Protected Route for Users Only */}
+              <Route
+                path="/userProfile"
+                element={
+                  <IsLoggedIn >
+                    <UserProfilepage />
+                  </IsLoggedIn>
+                }
+              />
+              <Route
+                path="/register"
+                element={
+                  // <PrivateRoute >
+                    <OwnerHome />
+                //  </PrivateRoute> 
+                }
+              />
+
+<Route
+                path="/booking"
+                element={
+                  // <IsLoggedIn>
+                    <Booking />
+                  // </IsLoggedIn>
+                }
+              />
+
+            </Routes>
+          </main>
+        </Router>
+      </SigninO>
+      {/* <Top/>
 
         <Second/>
         <Third/>
        <Footer/>  */}
-       
-{/* <R9/> */}
+
+      {/* <R9/> */}
     </>
   )
 }

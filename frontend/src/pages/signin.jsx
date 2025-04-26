@@ -13,9 +13,16 @@ function SignIn() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-function callHandeler(){
-a.signInHandler(true,username);
-navigate('/')
+function callHandeler(data,role){
+    if(role==="user"){
+a.signInHandler(data);
+navigate('/')}
+else if(role==="crecheowner"){
+    a.signInHandler(data);
+    navigate('/owner')
+}
+
+
 
 }
 
@@ -28,7 +35,7 @@ navigate('/')
             method: "POST",
             body: JSON.stringify({
                 username: username,
-                password: password,
+                currentPassword: password,
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -36,11 +43,20 @@ navigate('/')
         })
             .then((res) => res.json())
             .then((data) => {
-                if (data.status === "signedin" || data.status === "loggedin") {
+                if (data.status === "signedin"  ) {
                     alert("Sign In Successful");
-                    callHandeler();
+                    callHandeler(data.data,"signedin");
                     
-                } else {
+                }
+                else if (data.status === "user loggedin") {
+                    alert("Already Logged In");
+                    callHandeler(data.data,"user");
+                }
+                else if (data.status === "crecheowner loggedin") {
+                    alert("creche Owner Logged In");
+                    callHandeler(data.data,"crecheowner");
+                }
+                else {
                     alert("Sign In Failed");
                 }
             })

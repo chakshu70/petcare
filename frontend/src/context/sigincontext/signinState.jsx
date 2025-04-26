@@ -3,16 +3,28 @@ import SignInContext from "./signinContext";
 
 const SigninO=(props)=>{
 const[User,setUser]=useState({
-    isLoggedIn:null,
-    userName:null
+    isLoggedIn:false,
+    userName:null,
+    crecheOwner:false,
+    email:null,
+    bookingHistory:[],
+    currentBooking:[],
+    profilePicture:null,
 });
 
-const signInHandler=(a,b)=>{
-    console.log(a,b)
+const signInHandler=(data)=>{
+    console.log(data)
     setUser({
-        isLoggedIn:a, 
-        userName:b
-    })
+        
+        isLoggedIn: true,
+        userName: data.userName,
+        email: data.email,
+        bookingHistory: data.bookingHistory,
+        currentBooking: data.currentBooking,
+        profilePicture: data.profilePicture,
+        crecheOwner:data.crecheOwner
+    });
+console.log(User)
 }
 return(
     <SignInContext.Provider value={{User:User,signInHandler:signInHandler}}>

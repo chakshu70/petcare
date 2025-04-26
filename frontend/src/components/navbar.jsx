@@ -1,4 +1,4 @@
-import React from "react"
+import React, { use } from "react"
 
 import Home from "../pages/home";
 import SignIn from "../pages/signin.jsx";
@@ -22,7 +22,7 @@ const Nav=()=>{
 
  <Link to="/">Home</Link>
 <Link to="/contact">Contact</Link> 
-<Link to="/contact">About us</Link> 
+<Link to="/about">About us</Link> 
 
 
 
@@ -39,15 +39,23 @@ const Nav=()=>{
   
 
        {username.User.userName?
+       <Link to="/userProfile">
        <div className="flex">
-        <img src="d2.jpg" className="rounded-full h-10 w-10"/>
+       {username.User.profilePicture ?
+<img src={`${username.User.profilePicture}`} className="rounded-full h-10 w-10"></img>
+
+:
+      <img src="defaultuserpic.png" className="  rounded-full h-10 w-10"></img>
+
+  }
+        {/* <img src={username.User.profilePicture} className="rounded-full h-10 w-10"/> */}
 
         <div className="p-2">
        {username.User.userName}
         </div>
 
          </div>
-         
+         </Link>
          :
         <div>
 

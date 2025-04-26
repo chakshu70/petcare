@@ -796,3 +796,52 @@ export default SignInContext;
 //                 "id": 23
 //             }]
 // }
+
+
+
+
+// {
+//     "chakshu": {
+//       "userName": "Chakshu",
+//       "email": "123@gmail.com",
+//       "crecheOwner": false,
+//       "bookingHistory": [
+//         {
+//           "date": "2023-10-01",
+//           "time": "10:00 AM",
+//           "location": "Panipat",
+//           "crecheName": "Pet Haven",
+//           "price": 200,
+//           "id": "1"
+//         },
+//         {
+//           "date": "2023-10-05",
+//           "time": "2:30 PM",
+//           "location": "Gurugram",
+//           "crecheName": "Pet Home",
+//           "price": 15,
+//           "id": "2"
+//         }
+//       ],
+//       "currentBooking": [
+//         {
+//           "date": "2023-10-10",
+//           "time": "11:00 AM",
+//           "location": "Karnal",
+//           "crecheName": "Pet Paradise",
+//           "price": 100,
+//           "id": "13"
+//         }
+//       ],
+//       "password": "1131"
+//     },
+//     "gaurav": {
+//       "userName": "gaurav",
+//       "crecheOwner": true,
+//       "email": null,
+//       "bookingHistory": null,
+//       "currentBooking": null,
+//       "profilePicture": "dd.jpg",
+//       "password": "1156"
+//     }
+//   }

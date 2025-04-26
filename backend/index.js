@@ -2,8 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const { log } = require('console');
 const app = express();
 const port = 3000;
+// import { v4 as uuidv4 } from 'uuidd'
+// const uniwueid=uuidv4()
+const { v4: uuidv4 } = require('uuid');
+const uniqueid = uuidv4();
+
 app.use(express.json());
 
 app.use(cors());
@@ -73,7 +79,9 @@ fs.readFile('locationinfo.json', 'utf8', (err, data) => {
 
 app.post('/signin', (req, res) => {
     console.log(req.body);
-    const { username, password } = req.body;
+    const { username, currentPassword } = req.body;
+ 
+
     fs.readFile('users.json', 'utf8', (err, data) => {
         if (err) {
             console.error(err);
@@ -82,20 +90,43 @@ app.post('/signin', (req, res) => {
         }
         const users = JSON.parse(data);
         const user = users[username];
-        if (user && user === password) {
+        console.log(user, "this is user from signin");
+        if (user && user.password === currentPassword) {
+            if(user.crecheOwner==true){
+                console.log("creche owner logged in")
+                res.send({status:"crecheowner loggedin",
+                    data:user
+                })
+            }
+           else{
             console.log("logged in");
-            res.send({status:"loggedin"})
+            res.send({status:"user loggedin",
+                data:user
+            })
+        }
         } else {
             console.log("not logged in");
-            users[username] = password;
+            const newUser = {
+                userName: username,
+                email: null,
+                bookingHistory: null,
+                currentBooking: null,
+                profilePicture: null,
+                password: currentPassword,
+               crecheOwner:false
+
+            }
+            users[username] = newUser;
+                
+            
             // users.push({ username, password });
-fs.writeFile('users.json', JSON.stringify(users), (err) => {
+fs.writeFile('users.json', JSON.stringify(users,null,2), (err) => {
             if (err) {
                 console.error(err);
                 res.status(500).send('Internal Server Error');
                 return;
             }
-            res.send({status:"signedin"})
+            res.send({status:"signedin",data:newUser});
 
         }
         );
@@ -144,6 +175,150 @@ fs.writeFile('locationinfo.json', JSON.stringify(Data,"nn",2), (err) => {
     
 }
 )
+
+app.post('/booking', (req, res) => {
+    const crecheInfo = req.body.crecheInfo;
+    const bookingDetails = req.body.bookingDetails;
+    const userInfo = req.body.userInfo.User;
+    let crecheName="";
+    let crecheprice=0;
+    // console.log( "this",userInfo);
+    const l=crecheInfo.location;
+    const time=new Date().getHours()+":"+new Date().getMinutes()+":"+new Date().getSeconds();
+const date=new Date().getDate()+"/"+new Date().getMonth()+"/"+new Date().getFullYear();
+
+    fs.readFile('locationinfo.json', 'utf8', (err, data) => {
+       let Data=JSON.parse(data);
+        
+Data[l].find(item=>item.id=crecheInfo.id).bookings.push(bookingDetails);
+const fullCrecheInfo=Data[l].find(item=>item.id=crecheInfo.id)
+ crecheprice=fullCrecheInfo.price;
+ crecheName=fullCrecheInfo.name;
+
+// console.log(Data.Ambala[0].bookings);
+
+fs.writeFile('locationinfo.json', JSON.stringify(Data,null,2), (err) => {
+    if (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+        return;
+    }
+   
+});
+
+
+
+    })
+
+
+fs.readFile('users.json', 'utf8', (err, userdata) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        const users = JSON.parse(userdata);
+        const booking={
+         date: date,
+        time :time,
+        location: crecheInfo.location,
+        crecheName: crecheName,
+        price: crecheprice,
+        id:crecheInfo.id,
+        }
+        // console.log(users[userInfo.userName],"this is user from booking");
+        // users[userInfo.userName].currentBooking=booking;
+        users[userInfo.userName].bookingHistory.push(booking);
+
+        console.log(users[userInfo.userName].bookingHistory,"added")
+        // users.user.bookingHistory.push(booking);
+        // user.currentBooking=booking;
+
+        fs.writeFile('users.json', JSON.stringify(users,null,2), (err) => {
+            if (err) {
+                console.error(err);
+                res.status(500).send('Internal Server Error');
+                return;
+            }
+            res.send("ok");
+        });
+        
+    })
+})
+
+app.post('/registercreche', (req, res) => {
+    const crecheInfo = (req.body,data);
+    const editing = req.body.editing;
+    console.log(crecheInfo.location, "this is creche info from register creche")
+  fs.readFile('locationinfo.json', 'utf8', (err, data) => {
+    data = JSON.parse(data);
+        if (err) {
+            console.error(err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        if(editing==true){
+            const index = data[crecheInfo.location].findIndex(e => e.id == crecheInfo.id);
+            if (index !== -1) {
+                data[crecheInfo.location][index] = crecheInfo;
+            }
+        }
+        else{
+            crecheInfo.id=uniqueid;
+
+
+        data[crecheInfo.location].push(crecheInfo);
+    }
+
+        // console.log(data[crecheInfo.location], "this is data from register creche")
+        // console.log(result,"this is result from add creche")
+        fs.writeFile('locationinfo.json', JSON.stringify(data,null,2), (err) => {
+            if (err) {
+                console.error(err);
+                res.status(500).send('Internal Server Error');
+                return;
+            }
+            res.send("ok");
+        });
+  })
+})
+
+app.get('/registercreche', (req, res) => {
+    const username = req.query.username;
+    // const password = req.query.password;
+    const location = req.query.location;
+    const id = req.query.id;
+    fs.readFile('users.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        if(data.username==username){
+           fs.readFile('locationinfo.json', 'utf8', (err, data) => {
+                if (err) {
+                    console.error(err);
+                    res.status(500).send('Internal Server Error');
+                    return;
+                }
+                const index = data[location].findIndex(e => e.id == id);
+                if (index !== -1) {
+                    res.json(data[location][index]);
+                }
+                else{
+                    return null
+                }
+            });
+        }
+        else{
+            res.send(null);
+        }
+    });
+});
+
+
+
+
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);

@@ -3,24 +3,24 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import { useParams } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import { useSearchParams } from "react-router-dom";
 import { useState } from 'react';
 import ReviewBox from './reviews';
 import { useContext } from 'react';
 import SignInContext from '../context/sigincontext/signinContext';
 import Nav from './navbar';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 function New() {
 
-const abc=useContext(SignInContext);
-console.log(abc.User.userName);
+const user=useContext(SignInContext);
 
 const [e, setE] = useState(null);
 const [loading, setLoading] = useState(true);
 const [error, setError] = useState(null);
 const params = useParams();
 const [queryParams] = useSearchParams();
-
+const navigate = useNavigate();
 const a = queryParams.get('id');
 const location = queryParams.get('location');
 
@@ -44,15 +44,11 @@ useEffect(() => {
     fetchData();
 }, [a, location]);
 
-// const updateReviews =(newvalue)=>{
-//     console.log("inside bigger card",newvalue)
-// setE(prevData=>({
-//     ...prevData,
-//     reviews:[...prevData.reviews,newvalue]
-// }))
-// console.log("inside bigger card 2",e.reviews)
-
-// }
+function isloggedin() {
+    e.preventdefault();
+    alert("please login");
+    navigate("/")
+}
 
 const SampleNextArrow = (props) => {
     const { className, style, onClick } = props;
@@ -253,28 +249,39 @@ if (!e) {
                     <hr/>
 
 
-                {/* left grid end */}
+                {/* left grid end */}   
                 </div>
 
 {/* right grid */}
-<div className="fixed top-4 right-4  bg-white border  shadow-lg  ">
+<div className="fixed  right-4  bg-white border  shadow-lg h-full top-0  overflow-y-auto ">
 <div className='border'>
     <div className=' bg-slate-200 h-14 text-3xl text-center'> Services and Rates</div>
   
     
-    {/* Book Now */}
-    <div className=" items-center mt-4">
-        <div className='flex'>
-        <img src="bookicon.png" alt="" className='h-14 p-2' />
-         <div className="  p-3 text-2xl text-gray-400">Make a reservation </div>
-         </div>
+   { /* Book Now */}
+        <div className=" items-center mt-4">
+            <div className='flex'>
+            <img src="bookicon.png" alt="" className='h-14 p-2' />
+             <div className="  p-3 text-2xl text-gray-400">Make a reservation </div>
+             </div>
 
-         <div className=" text-l text-gray-400    ">Book a place for your pet now</div>
-         <button className="bg-purple-500 text-white text-2xl m-4 p-2">Book now</button>
-    </div>
-    <hr className='m-4 '/>
+             <div className=" text-l text-gray-400    ">Book a place for your pet now</div>
+             <Link to={user.User.isLoggedIn ? "/booking" : "/"} 
+                   onClick={(e) => {
+                       if (!user.User.isLoggedIn) {
+                           e.preventDefault();
+                           alert("Please sign in");
+                           navigate("/");
+                       }
+                   }} 
+                   state={{ id: e.id, location: location }}>
+             <button className="bg-purple-500 text-white text-2xl m-4 p-2">Book now</button>
+        </Link>
 
-    {/* Talk and Greet */}
+        </div>
+        <hr className='m-4 '/>
+
+        {/* Talk and Greet */}
     <div className=" items-center">
         <div className='flex'>
         <img src="talk andgreet.png" alt="" className='h-16' />

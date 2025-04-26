@@ -4,7 +4,7 @@ const Footer=()=>{
 
 return(
     <>
-    <div className="grid grid-cols-2 bg-slate-100 ">
+    <div className="grid grid-cols-2 bg-slate-100 mt-20">
     
 <div className=" ">
 
