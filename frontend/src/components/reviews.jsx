@@ -62,7 +62,7 @@ console.log(crecheName,location)
   },[change]);
 
   return (
-    <div className="w-full mx-auto p-4 border rounded-lg ">
+    <div className="w-full mx-auto p-4 ">
       <div  className="mb-4">
         <textarea
           className="w-full p-2 border rounded-lg mb-2"

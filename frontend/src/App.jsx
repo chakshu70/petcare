@@ -22,6 +22,7 @@ import Contact from './pages/about';
 import ContactX from './pages/about';
 import About from './pages/about';
 import ContactUs from './pages/contact';
+import MakePayment from './components/payment';
 function App() {
 
 
@@ -67,6 +68,15 @@ function App() {
                   </IsLoggedIn>
                 }
               />
+
+<Route
+                path="/owner"
+                element={
+                  <IsLoggedIn >
+                    <OwnerHome />
+                  </IsLoggedIn>
+                }
+              />
               <Route
                 path="/register"
                 element={
@@ -81,6 +91,14 @@ function App() {
                 element={
                   // <IsLoggedIn>
                     <Booking />
+                  // </IsLoggedIn>
+                }
+              />
+              <Route
+                path="/payment"
+                element={
+                  // <IsLoggedIn>
+                    <MakePayment />
                   // </IsLoggedIn>
                 }
               />
@@ -104,7 +122,11 @@ function App() {
 export default App
 
 
-
+// add phone  umber and email in register creche
+// save images uploaded byreigister creche in locationinfo.json
+// change creche settings button in userprofile
+// show the number of the creche owner when click on contact now in biggercard
+// add images to all creches 
 
 
 

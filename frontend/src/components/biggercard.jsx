@@ -238,7 +238,7 @@ if (!e) {
                  <hr className='m-4 '/>
 
                  {/* Reviews */}
-                 <div className='m-10 border border-red-500'>
+                 <div className='m-10 border rounded-lg '>
                     <div className='text-2xl flex flex-start m-2 text-blue-700 font-bold '>Reviews</div>
                     <div className='flex flex-start align-start m-auto'>
                     <ReviewBox  prereviews={e.reviews} crecheName={e.name} location={location}  />
@@ -289,7 +289,11 @@ if (!e) {
          </div>
 
          <div className=" text-l text-gray-400    ">Get to know each other first</div>
-         <button className="bg-purple-500 text-white text-2xl m-4 p-2">Contact now</button>
+         <button className="bg-purple-500 text-white text-2xl m-4 p-2">
+            <Link to="/contact">
+            Contact now
+            </Link>
+            </button>
     </div>
 
 </div>
@@ -301,3 +305,4 @@ if (!e) {
 }
 
 export default New;
+

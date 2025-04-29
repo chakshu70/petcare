@@ -29,12 +29,7 @@
         "longitude": 76.9905,
         "pincode": "132001"
     },
-    {
-        "name": "Hisar",
-        "latitude": 29.1492,
-        "longitude": 75.7217,
-        "pincode": "125001"
-    },
+  
     {
         "name": "Rohtak",
         "latitude": 28.8955,
@@ -46,17 +41,5 @@
         "latitude": 30.1290,
         "longitude": 77.2674,
         "pincode": "135001"
-    },
-    {
-        "name": "Panchkula",
-        "latitude": 30.6942,
-        "longitude": 76.8606,
-        "pincode": "134109"
-    },
-    {
-        "name": "Sonipat",
-        "latitude": 28.9931,
-        "longitude": 77.0151,
-        "pincode": "131001"
     }
 ]

@@ -12,8 +12,8 @@ const e=useContext(SignInContext).User;
     return(
         <>
         <Nav/>
-        <div className="border grid grid-cols-4">
-<div className=" col-span-1  border-4 items-center h-80 ">
+        <div className=" grid grid-cols-4">
+<div className=" col-span-1   items-center h-80 ">
   {e.profilePicture ?
 <img src={`${e.profilePicture}`} className="  h-40 w-40 rounded-full m-auto mt-7"></img>
 
@@ -21,11 +21,11 @@ const e=useContext(SignInContext).User;
       <img src="pug4.jpeg" className="  h-40 w-40 rounded-full m-auto mt-7"></img>
 
   }
-    <button className="border-2 bg-green-500 text-white rounded-md px-4 py-2 mt-7">
+    <button className=" bg-green-500 text-white rounded-md px-4 py-2 mt-7">
         Change Profile Picture
         </button>
 </div>
-<div className=" border-4 col-span-3">
+<div className="  col-span-3">
     {/* name and email */}
    <div>
     <div className=" text-3xl flex justify-start p-4 font-title text-gray-500 ">
@@ -67,19 +67,20 @@ const e=useContext(SignInContext).User;
                 Change Password
               </button>
               
-              <button className="bg-gray-200 px-4 py-4 rounded-md">
+              <a  href="/" className="bg-gray-200 px-4 py-4 rounded-md">
                 Logout
-              </button>
+              </a>
           </div>
 
           {/* Content based on active tab */}
           <div className="mt-4">
             {activeTab === "history" && (
               <div>
-                <p className="text-4xl">Booking History</p>
                 {e.bookingHistory && e.bookingHistory.length > 0 ? (
                 e.bookingHistory.map((booking, index) => (
-                  <div key={index} className="border p-4 m-2 bg-gray-100 rounded-lg">
+                  <div key={index}
+                  className="bg-white border-4 border-slate-300 p-6 rounded-xl shadow-lg mb-4 transition duration-300 ease-in-out transform hover:scale-105"
+                  >
                     <p>Date: {booking.date}</p>
                     <p>Time: {booking.time}</p>
                     <p>Location: {booking.location}</p>
@@ -102,10 +103,11 @@ const e=useContext(SignInContext).User;
             )}
             {activeTab === "current" && (
               <div>
-                <p className="text-4xl">Current Booking</p>
                 {e.currentBooking && e.currentBooking.length > 0 ? (
                   e.currentBooking.map((booking, index) => (
-                    <div key={index} className="border p-4 m-2 bg-gray-100 rounded-lg">
+                    <div key={index}
+                    className="bg-white border-4 border-slate-300 p-6 rounded-xl shadow-lg mb-4 transition duration-300 ease-in-out transform hover:scale-105"
+                    >
                       <p>Date: {booking.date}</p>
                       <p>Time: {booking.time}</p>
                       <p>Location: {booking.location}</p>
@@ -135,3 +137,10 @@ const e=useContext(SignInContext).User;
     )
 }
 export default UserProfilepage
+
+
+
+
+
+
+

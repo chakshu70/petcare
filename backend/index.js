@@ -182,7 +182,7 @@ app.post('/booking', (req, res) => {
     const userInfo = req.body.userInfo.User;
     let crecheName="";
     let crecheprice=0;
-    // console.log( "this",userInfo);
+    
     const l=crecheInfo.location;
     const time=new Date().getHours()+":"+new Date().getMinutes()+":"+new Date().getSeconds();
 const date=new Date().getDate()+"/"+new Date().getMonth()+"/"+new Date().getFullYear();
@@ -190,7 +190,18 @@ const date=new Date().getDate()+"/"+new Date().getMonth()+"/"+new Date().getFull
     fs.readFile('locationinfo.json', 'utf8', (err, data) => {
        let Data=JSON.parse(data);
         
-Data[l].find(item=>item.id=crecheInfo.id).bookings.push(bookingDetails);
+const creche = Data[l].find(item => item.id == crecheInfo.id);
+if (creche) {
+    if (!creche.bookings) {
+        creche.bookings = [];
+    }
+    creche.bookings.push(bookingDetails);
+
+} else {
+    console.log("Creche not found in location data");
+    res.status(404).send('Creche not found');
+    return;
+}
 const fullCrecheInfo=Data[l].find(item=>item.id=crecheInfo.id)
  crecheprice=fullCrecheInfo.price;
  crecheName=fullCrecheInfo.name;
@@ -229,6 +240,7 @@ fs.readFile('users.json', 'utf8', (err, userdata) => {
         // console.log(users[userInfo.userName],"this is user from booking");
         // users[userInfo.userName].currentBooking=booking;
         users[userInfo.userName].bookingHistory.push(booking);
+        users[userInfo.userName].currentBooking.push(booking);
 
         console.log(users[userInfo.userName].bookingHistory,"added")
         // users.user.bookingHistory.push(booking);
@@ -247,8 +259,9 @@ fs.readFile('users.json', 'utf8', (err, userdata) => {
 })
 
 app.post('/registercreche', (req, res) => {
-    const crecheInfo = (req.body,data);
+    const crecheInfo = req.body.data;
     const editing = req.body.editing;
+    console.log(req.body, "this is creche info from register creche");
     console.log(crecheInfo.location, "this is creche info from register creche")
   fs.readFile('locationinfo.json', 'utf8', (err, data) => {
     data = JSON.parse(data);

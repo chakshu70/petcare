@@ -43,8 +43,8 @@ const ContactUs = () => {
       <h1 className="text-3xl font-bold text-center mb-6">Contact Us</h1>
 
       {/* Contact Information */}
-      <div className="mb-8 flex-col items-center ">
-        <h2 className="text-xl font-semibold mb-4 ">Contact Information</h2>
+      <div className="bg-gradient-to-r from-blue-500 to-teal-600 py-20 px-4 text-center text-white">
+      <h2 className="text-xl font-semibold mb-4 ">Contact Information</h2>
         <div className="space-y-2">
           <p><Phone className="inline-block mr-2" />(91+) 9015056679</p>
           <p><Mail className="inline-block mr-2" /> support@petcare.com</p>

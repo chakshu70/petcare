@@ -1,6 +1,6 @@
 {
-  "Chakshu": {
-    "userName": "Chakshu",
+  "chakshu": {
+    "userName": "chakshu",
     "email": "123@gmail.com",
     "crecheOwner": false,
     "bookingHistory": [
@@ -19,6 +19,30 @@
         "crecheName": "Pet Home",
         "price": 15,
         "id": "2"
+      },
+      {
+        "date": "28/3/2025",
+        "time": "11:39:44",
+        "location": "Gurugram",
+        "crecheName": "Paws & Claws Pet Care",
+        "price": 600,
+        "id": 2
+      },
+      {
+        "date": "28/3/2025",
+        "time": "11:42:22",
+        "location": "Faridabad",
+        "crecheName": "Furry Friends Care",
+        "price": 650,
+        "id": 5
+      },
+      {
+        "date": "28/3/2025",
+        "time": "13:22:29",
+        "location": "Gurugram",
+        "crecheName": "Paws & Claws Pet Care",
+        "price": 600,
+        "id": 2
       }
     ],
     "currentBooking": [
@@ -29,6 +53,22 @@
         "crecheName": "Pet Paradise",
         "price": 100,
         "id": "13"
+      },
+      {
+        "date": "28/3/2025",
+        "time": "11:42:22",
+        "location": "Faridabad",
+        "crecheName": "Furry Friends Care",
+        "price": 650,
+        "id": 5
+      },
+      {
+        "date": "28/3/2025",
+        "time": "13:22:29",
+        "location": "Gurugram",
+        "crecheName": "Paws & Claws Pet Care",
+        "price": 600,
+        "id": 2
       }
     ],
     "password": "1131"
@@ -37,38 +77,11 @@
     "userName": "gaurav",
     "crecheOwner": true,
     "email": null,
-    "bookingHistory": [],
-    "currentBooking": [],
-    "profilePicture": "dd.jpg",
-    "password": "1156",
-    "location": "Karnal",
-    "id":101
-  },
-  "chakshu": {
-    "userName": "chakshu",
-    "email": null,
-    "bookingHistory": [
-      {
-        "date": "25/3/2025",
-        "time": "9:58:39",
-        "location": "Gurugram",
-        "crecheName": "Paws & Claws Pet Care",
-        "price": 600,
-        "id": 2
-      }
-    ],
-    "currentBooking": [],
-    "profilePicture": null,
-    "password": "1131",
-    "crecheOwner": false
-  },
-  "deepanshu": {
-    "userName": "deepanshu",
-    "email": null,
     "bookingHistory": null,
     "currentBooking": null,
-    "profilePicture": null,
-    "password": "1139",
-    "crecheOwner": false
+    "profilePicture": "dd.jpg",
+    "password": "1156"
   }
 }
+
+
