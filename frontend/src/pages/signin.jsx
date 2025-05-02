@@ -117,6 +117,8 @@ function SignIn() {
     
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [email, setEmail] = useState("");
 
     function callHandeler(data, role) {
         if (role === "user") {
@@ -137,6 +139,8 @@ function SignIn() {
             body: JSON.stringify({
                 username: username,
                 currentPassword: password,
+                role: "user",
+                phoneNumber: phoneNumber,
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -175,7 +179,7 @@ function SignIn() {
 
             {/* Sign In Card */}
             <div className="bg-white w-full sm:w-96 md:w-96 lg:w-1/3 xl:w-1/4 shadow-xl rounded-2xl p-8 flex flex-col space-y-6">
-                <div className="text-3xl font-bold text-center text-blue-600 mb-6">Welcome Back</div>
+                <div className="text-3xl font-bold text-center text-blue-600 mb-6">Sign in</div>
 
                 {/* Form */}
                 <form className="flex flex-col space-y-6" onSubmit={handleSubmit}>
@@ -184,6 +188,7 @@ function SignIn() {
                         className="shadow-lg p-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                         placeholder="Username"
                         value={username}
+                        required
                         onChange={(e) => setUsername(e.target.value)} // Update state on input change
                     />
                     <input
@@ -191,7 +196,22 @@ function SignIn() {
                         className="shadow-lg p-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                         placeholder="Password"
                         value={password}
+                        required
                         onChange={(e) => setPassword(e.target.value)} // Update state on input change
+                    />
+                    <input
+                        type="tel"
+                        className="shadow-lg p-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                        placeholder="Phone Number"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)} // Update state on input change
+                    />
+                    <input
+                        type="email"
+                        className="shadow-lg p-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                        placeholder="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)} // Update state on input change
                     />
                     <button 
                         type="submit" 

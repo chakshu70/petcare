@@ -2,17 +2,29 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
-const { log } = require('console');
+
+const multer = require('multer');
+const cloudinary = require('cloudinary');
+
 const app = express();
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+// Cloudinary configuration
+cloudinary.v2.config({
+    cloud_name: "djp1oiwpe",
+    api_key: 264348425669867,
+    api_secret: "9dzpJ_LwXZUSfDjHTdvPhbmjHPQ",
+  });
+
 const port = 3000;
-// import { v4 as uuidv4 } from 'uuidd'
-// const uniwueid=uuidv4()
-const { v4: uuidv4 } = require('uuid');
-const uniqueid = uuidv4();
+
+const { v4: uuidv4, v4 } = require('uuid');
 
 app.use(express.json());
 
 app.use(cors());
+
+
 
 app.get('/getdata', (req, res) => {
     res.send("reached here");
@@ -59,7 +71,7 @@ fs.readFile('locationinfo.json', 'utf8', (err, data) => {
         }
         const locations = JSON.parse(data);
         const result = locations[location];
-    const ans = result.find(e => e.id == id);
+    const ans = result.find(e => e.crecheid == id);
         if (ans) {
             console.log(ans)
             res.send(ans);
@@ -77,11 +89,9 @@ fs.readFile('locationinfo.json', 'utf8', (err, data) => {
 
 })
 
-app.post('/signin', (req, res) => {
-    console.log(req.body);
-    const { username, currentPassword } = req.body;
- 
-
+app.post('/login',(req,res)=>{
+const { username, currentPassword } = req.body;
+console.log(req.body,"this is body from login")
     fs.readFile('users.json', 'utf8', (err, data) => {
         if (err) {
             console.error(err);
@@ -90,7 +100,7 @@ app.post('/signin', (req, res) => {
         }
         const users = JSON.parse(data);
         const user = users[username];
-        console.log(user, "this is user from signin");
+        console.log(user, "this is user from login");
         if (user && user.password === currentPassword) {
             if(user.crecheOwner==true){
                 console.log("creche owner logged in")
@@ -100,8 +110,46 @@ app.post('/signin', (req, res) => {
             }
            else{
             console.log("logged in");
-            res.send({status:"user loggedin",
+            res.send({status:"loggedin",
                 data:user
+            })
+        }
+        } else {
+            console.log("wrong credentials ");
+            res.send({status:"wrong credentials"})
+        }
+    });
+})
+
+app.post('/signin', (req, res) => {
+    console.log(req.body);
+    const { username, currentPassword,role,phoneNumber,location} = req.body;
+ 
+
+    fs.readFile('users.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        const uid=uuidv4();
+        const users = JSON.parse(data);
+        const user = users[username];
+        console.log(user, "this is user from signin");
+        if (user && user.password === currentPassword) {
+            if(user.crecheOwner==true){
+                console.log("creche owner logged in")
+                res.send({status:"crecheowner loggedin",
+                    data:user,
+                    id:user.id
+                })
+            }
+           else{
+            console.log("logged in");
+            res.send({status:"user already exist",
+                data:user,
+                id:user.id
+
             })
         }
         } else {
@@ -112,21 +160,24 @@ app.post('/signin', (req, res) => {
                 bookingHistory: null,
                 currentBooking: null,
                 profilePicture: null,
+                phoneNumber:phoneNumber,
                 password: currentPassword,
-               crecheOwner:false
+               crecheOwner:role=="crecheowner"?true:false,
+               id:uid,
+                location:role=="crecheowner"?location:null,
 
             }
+            console.log(newUser, "this is new user from signin")
             users[username] = newUser;
                 
             
-            // users.push({ username, password });
 fs.writeFile('users.json', JSON.stringify(users,null,2), (err) => {
             if (err) {
                 console.error(err);
                 res.status(500).send('Internal Server Error');
                 return;
             }
-            res.send({status:"signedin",data:newUser});
+            res.send({status:"signedin",data:newUser,id:uid});
 
         }
         );
@@ -261,7 +312,8 @@ fs.readFile('users.json', 'utf8', (err, userdata) => {
 app.post('/registercreche', (req, res) => {
     const crecheInfo = req.body.data;
     const editing = req.body.editing;
-    console.log(req.body, "this is creche info from register creche");
+
+    console.log(crecheInfo, "this is creche info from register creche");
     console.log(crecheInfo.location, "this is creche info from register creche")
   fs.readFile('locationinfo.json', 'utf8', (err, data) => {
     data = JSON.parse(data);
@@ -271,13 +323,14 @@ app.post('/registercreche', (req, res) => {
             return;
         }
         if(editing==true){
+            console.log("editing creche")
             const index = data[crecheInfo.location].findIndex(e => e.id == crecheInfo.id);
             if (index !== -1) {
                 data[crecheInfo.location][index] = crecheInfo;
             }
         }
         else{
-            crecheInfo.id=uniqueid;
+            crecheInfo.crecheid=uuidv4();
 
 
         data[crecheInfo.location].push(crecheInfo);
@@ -297,37 +350,45 @@ app.post('/registercreche', (req, res) => {
 })
 
 app.get('/registercreche', (req, res) => {
-    const username = req.query.username;
+    console.log(req.query)
+    // const username = req.query.username;
     // const password = req.query.password;
     const location = req.query.location;
     const id = req.query.id;
-    fs.readFile('users.json', 'utf8', (err, data) => {
+    console.log("rer")
+    
+    fs.readFile('locationinfo.json', 'utf8', (err, data) => {
         if (err) {
             console.error(err);
             res.status(500).send('Internal Server Error');
             return;
         }
-        if(data.username==username){
-           fs.readFile('locationinfo.json', 'utf8', (err, data) => {
-                if (err) {
-                    console.error(err);
-                    res.status(500).send('Internal Server Error');
-                    return;
-                }
-                const index = data[location].findIndex(e => e.id == id);
-                if (index !== -1) {
-                    res.json(data[location][index]);
-                }
-                else{
-                    return null
-                }
-            });
+        const locations = JSON.parse(data);
+        const locationData = locations[location];
+        if (!locationData) {
+            res.status(404).send('Location not found');
+            return;
         }
-        else{
-            res.send(null);
+        const result = locationData.find(item => item.userid == id);
+        if (result) {
+            res.send(result);
+        } else {
+            res.status(404).send('Creche not found');
         }
     });
+
 });
+
+app.post('/upload', upload.single('image'), async (req, res) => {
+    if (!req.file) return res.status(400).send('No file uploaded.');
+  
+    try {
+      const result =  cloudinary.v2.uploader.upload_stream(req.file.buffer, { resource_type: 'auto' });
+      return res.status(201).json({ url: result.secure_url, public_id: result.public_id });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  });
 
 
 

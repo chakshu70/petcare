@@ -63,6 +63,15 @@ const e=useContext(SignInContext).User;
             >
               Current Booking
               </button>
+              {
+                e.crecheOwner&&(
+                  <button className="bg-gray-200 px-4 py-4 rounded-md">
+                    <Link to="/registercreche" state={{editing:true}}>
+                    Change Creche Settings
+                    </Link>
+                  </button>
+                )
+              }
               <button className="bg-gray-200 px-4 py-4 rounded-md">
                 Change Password
               </button>

@@ -17,7 +17,7 @@ const Cards=({location})=>{
             }) ;
         },[location]);
                 
-
+console.log(data)
         return(
             <>
 
@@ -26,7 +26,7 @@ const Cards=({location})=>{
 
             <div className="grid items-center p-3  ">
 
-            <Link to={`/biggercard?id=${e.id}&location=${location}`}>
+            <Link to={`/biggercard?id=${e.crecheid}&location=${location}`}>
         <div className="container flex h-48 bg-gray-100 w-5/6 mx-auto my-auto rounded-xl shadow-lg ">
             {/* Display image */}
             <div className="image-wrapper ">

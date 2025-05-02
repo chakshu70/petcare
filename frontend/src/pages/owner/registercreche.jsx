@@ -1046,39 +1046,176 @@
 
 
 
-import React, { useState, useContext } from 'react';
-import SignInContext from '../../context/sigincontext/signinContext';
-import { useNavigate } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
+// import React, { useState, useContext } from 'react';
+// import SignInContext from '../../context/sigincontext/signinContext';
+// import { useNavigate } from 'react-router-dom';
+// import { v4 as uuidv4 } from 'uuid';
+// const RegisterCreche = () => {
+//   const context = useContext(SignInContext).User;
+//   const navigate = useNavigate();
+//   const editing=useLocation().state.editing;
+//   console.log(editing,"this isedting")
+  
+//  let previnfo={}
+//   if(editing===true){
+//     console.log("jkj")
+//     fetch(`http://localhost:3000/registercreche/?location=${context.location}&id=${context.id}`,{
+//         method: 'GET',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//     }).then((response) => {
+//       // console.log("kkkk ")
+//       // if(response.ok) {
+//       // return response.json()}
+//       // else{
+//       //   alert("error fetching data")
+//       // }
+//       return response.json()
+//     }).then(res=>{
+//       console.log(res)
+
+//       previnfo=res
+//       console.log(previnfo)
+//     })
+
+// }
+// // const [formData, setFormData] = useState({
+// //   name: '',
+// //   displayimg: '',
+// //   certificate: [],
+// //   location: '',
+// //   shortdescription: '',
+// //   price: '',
+// //   rating: 0,
+// //   ownername: '',
+// //   allimg: [],
+// //   fulldescription: '',
+// //   skills: [],
+// //   summary: '',
+// //   noofpetswatched: '',
+// //   petsize: [],
+// //   pottybreaks: '',
+// //   typeOfHome: '',
+// //   Emergencytransport: '',
+// //   petTypeaccepted: [],
+// //   bookings: [],
+// //   username: '',
+// //   password: '',
+// //   phoneNumber: '',
+// //   userid:'',
+// //   crecheid:''
+// // });
+// console.log(previnfo)
+
+//   const [formData, setFormData] = useState(() => {
+//     return editing ? previnfo : 
+//     {
+//       name: '',
+//       displayimg: '',
+//       certificate: [],
+//       location: '',
+//       shortdescription: '',
+//       price: '',
+//       rating: 0,
+//       ownername: '',
+//       allimg: [],
+//       fulldescription: '',
+//       skills: [],
+//       summary: '',
+//       noofpetswatched: '',
+//       petsize: [],
+//       pottybreaks: '',
+//       typeOfHome: '',
+//       Emergencytransport: '',
+//       petTypeaccepted: [],
+//       bookings: [],
+//       username: '',
+//       password: '',
+//       id: 0,
+//     };
+//   });
+
+//   console.log(formData)
+
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import SignInContext from "../../context/sigincontext/signinContext";
+import { v4 as uuidv4 } from "uuid";
 
 const RegisterCreche = () => {
-  const context = useContext(SignInContext);
+  const context = useContext(SignInContext).User;
   const navigate = useNavigate();
+  const editing = useLocation().state.editing;
+let petsizepic={
+    "0-5kg": "icon_01.png",
+    "5-10kg": "icon_02.png",
+    "10-20kg": "icon_03.png",
+    "20-40kg": "icon_04.png",
+  };
+
+  const [previnfo, setPrevinfo] = useState(null); // State to store fetched data
   const [formData, setFormData] = useState({
-    name: '',
-    displayimg: '',
+    name: "",
+    displayimg: "",
     certificate: [],
-    location: '',
-    shortdescription: '',
-    price: '',
+    location: "",
+    shortdescription: "",
+    price: "",
     rating: 0,
-    ownername: '',
+    ownername: "",
     allimg: [],
-    fulldescription: '',
+    fulldescription: "",
     skills: [],
-    summary: '',
-    noofpetswatched: '',
+    summary: "",
+    noofpetswatched: "",
     petsize: [],
-    pottybreaks: '',
-    typeOfHome: '',
-    Emergencytransport: '',
-    petTypeaccepted: [],
+    pottybreaks: "",
+    typeOfHome: "",
+    Emergencytransport: "",
+    petTypAccepted: [],
     bookings: [],
-    username: '',
-    password: '',
-    id: 0,
+    username: "",
+    password: "",
+    phoneNumber: "",
+    userid: "",
+    crecheid: "",
   });
 
+  // Fetch data when editing is true
+  useEffect(() => {
+    if (editing) {
+      fetch(
+        `http://localhost:3000/registercreche/?location=${context.location}&id=${context.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Error fetching data");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Fetched data:", data);
+          setPrevinfo(data); // Set the fetched data into previnfo
+          setFormData(data); // Update formData with the fetched data
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [editing, context.location, context.id]);
+
+
   const [pageNo, setPageNo] = useState(0);
+
+
 
   const incrementPage = () => {
     setPageNo(pageNo + 1);
@@ -1095,20 +1232,67 @@ const RegisterCreche = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch('http://localhost:3000/registercreche', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    }).then((response) => {
-      if (response.ok) {
-        alert('Creche registered successfully!');
-        navigate("/");
-      } else {
-        alert('Error registering creche:', response.statusText);
-      }
-    });
+
+if(editing==false){
+{
+fetch('http://localhost:3000/signin', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    username: formData.username,
+    currentPassword: formData.password,
+    role:"crecheowner",
+    phoneNumber: formData.phoneNumber,
+    location: formData.location
+  })
+}).then((res) => res.json())
+.then((res) => {
+let data=res.data  
+formData.userid=data.id;
+  // console.log(data.id)
+  fetch('http://localhost:3000/registercreche', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      data:formData,
+    }),
+  }).then((response) => {
+    if (response.ok) {
+      alert('Creche registered successfully!');
+      navigate("/");
+    } else {
+      alert('Error registering creche:', response.statusText);
+    }
+  });
+
+})
+}
+}
+
+else{
+fetch('http://localhost:3000/registercreche', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      data:formData,
+      editing: editing,
+    }),
+  }).then((response) => {
+    if (response.ok) {
+      alert('updated  details successfully!');
+      navigate("/");
+    } else {
+      alert('Error updating  details:', response.statusText);
+    }
+  });
+}
+
   };
 
   return (
@@ -1121,7 +1305,7 @@ const RegisterCreche = () => {
               Prev Page
             </button>
           )}
-          <h2 className="text-2xl font-semibold text-slate-800">
+          <h2 className="text-2xl font-semibold text-slate-800 m-auto">
             {pageNo === 0 ? 'Registration Details' : pageNo === 1 ? 'Pet Details' : pageNo === 2 ? 'Creche Details' : pageNo === 3 ? 'Upload Images' : 'Set Credentials'}
           </h2>
           {pageNo < 4 && (
@@ -1160,6 +1344,20 @@ const RegisterCreche = () => {
               </div>
 
               <div className="mb-4">
+                <label className="block text-lg font-medium text-slate-700 mb-1">Phone Number</label>
+                <input
+                  type="tel"
+                  placeholder="Phone Number"
+                  required
+                  onChange={handleChange}
+                  name="phoneNumber"
+                  className="w-full p-3 border border-slate-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  
+                  value={formData.phoneNumber}
+                />
+              </div>
+
+              <div className="mb-4">
                 <label className="block text-lg font-medium text-slate-700 mb-1">Choose your location</label>
                 <select
                   className="w-full p-3 border border-slate-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -1190,19 +1388,7 @@ const RegisterCreche = () => {
                 />
               </div>
 
-              <div className="mb-4">
-                <label className="block text-lg font-medium text-slate-700 mb-1">What is your Home type?</label>
-                <select
-                  className="w-full p-3 border border-slate-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  onChange={handleChange}
-                  name="typeOfHome"
-                >
-                  <option value="" disabled selected>Type of Home</option>
-                  <option value="flat">Flat</option>
-                  <option value="house">House</option>
-                  <option value="dedicatedcreche">Dedicated Creche</option>
-                </select>
-              </div>
+              
 
               <button type="button" className="w-full py-3 bg-red-500 text-white rounded-md shadow-md" onClick={incrementPage}>
                 Next
@@ -1260,15 +1446,28 @@ const RegisterCreche = () => {
                         type="checkbox"
                         name="petsize"
                         value={petsize}
+
+                        // onChange={(e) => {
+                        //   const { checked, value } = e.target;
+                        //   setFormData((prevData) => ({
+                        //     ...prevData,
+                        //     petsize: checked
+                        //       ? [...prevData.petsize, value]
+                        //       : prevData.petsize.filter((type) => type !== value),
+                        //   }));
+                        // }}
+
                         onChange={(e) => {
                           const { checked, value } = e.target;
-                          setFormData((prevData) => ({
+                            setFormData((prevData) => ({
                             ...prevData,
                             petsize: checked
-                              ? [...prevData.petsize, value]
-                              : prevData.petsize.filter((type) => type !== value),
-                          }));
-                        }}
+                              ? [...prevData.petsize, { src: petsizepic[value], weight: value }]
+                              : prevData.petsize.filter((type) => type.weight !== value),
+                            }));
+                  }}
+
+
                         className="form-checkbox h-5 w-5 text-blue-600"
                       />
                       <span>{petsize}</span>
@@ -1309,6 +1508,20 @@ const RegisterCreche = () => {
                   required
                   value={formData.price}
                 />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-lg font-medium text-slate-700 mb-1">What is your Home type?</label>
+                <select
+                  className="w-full p-3 border border-slate-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  onChange={handleChange}
+                  name="typeOfHome"
+                >
+                  <option value="" disabled selected>Type of Home</option>
+                  <option value="flat">Flat</option>
+                  <option value="house">House</option>
+                  <option value="dedicatedcreche">Dedicated Creche</option>
+                </select>
               </div>
 
               <div className="mb-4">

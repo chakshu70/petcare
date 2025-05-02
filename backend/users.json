@@ -81,7 +81,17 @@
     "currentBooking": null,
     "profilePicture": "dd.jpg",
     "password": "1156"
+  },
+  "divij": {
+    "userName": "divij",
+    "email": null,
+    "bookingHistory": null,
+    "currentBooking": null,
+    "profilePicture": null,
+    "phoneNumber": "1234",
+    "password": "1147",
+    "crecheOwner": true,
+    "id": "6538a36a-3dfd-409d-b9d7-ae8a2335121a",
+    "location": "Gurugram"
   }
 }
-
-

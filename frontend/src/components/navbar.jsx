@@ -129,9 +129,15 @@ const Nav = () => {
             <span className="text-gray-700">{username.User.userName}</span>
           </Link>
         ) : (
+          <div>
           <Link to="/signin" className="text-gray-700 hover:text-blue-500 transition duration-200">
-            Sign In
+            Sign In / 
           </Link>
+
+          <Link to="/login" className="text-gray-700 hover:text-blue-500 transition duration-200">
+           Log In
+        </Link>
+        </div>
         )}
       </div>
     </div>

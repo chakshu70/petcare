@@ -23,6 +23,8 @@ import ContactX from './pages/about';
 import About from './pages/about';
 import ContactUs from './pages/contact';
 import MakePayment from './components/payment';
+import LogIn from './pages/login';
+import PhotoUpload from './components/store';
 function App() {
 
 
@@ -42,6 +44,10 @@ function App() {
               <Route path="/registercreche" element={<RegisterCreche />} />
 
               <Route path="/signin" element={<SignIn />} />
+              <Route path="/login" element={<LogIn />} />
+              <Route path="/images" element={<PhotoUpload />} />
+
+              
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<ContactUs />} />
 
@@ -122,7 +128,7 @@ function App() {
 export default App
 
 
-// add phone  umber and email in register creche
+// add phone  number and email in register creche
 // save images uploaded byreigister creche in locationinfo.json
 // change creche settings button in userprofile
 // show the number of the creche owner when click on contact now in biggercard

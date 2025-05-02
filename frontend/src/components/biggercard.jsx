@@ -33,6 +33,7 @@ useEffect(() => {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json();
+            console.log(data)
             setE(data);
         } catch (err) {
             setError(err.message);
@@ -274,7 +275,7 @@ if (!e) {
                            navigate("/");
                        }
                    }} 
-                   state={{ id: e.id, location: location }}>
+                   state={{ id: e.crecheid, location: location }}>
              <button className="bg-purple-500 text-white text-2xl m-4 p-2">Book now</button>
         </Link>
 

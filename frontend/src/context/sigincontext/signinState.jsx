@@ -10,6 +10,7 @@ const[User,setUser]=useState({
     bookingHistory:[],
     currentBooking:[],
     profilePicture:null,
+    location:null,
 });
 
 const signInHandler=(data)=>{
@@ -22,7 +23,9 @@ const signInHandler=(data)=>{
         bookingHistory: data.bookingHistory,
         currentBooking: data.currentBooking,
         profilePicture: data.profilePicture,
-        crecheOwner:data.crecheOwner
+        crecheOwner:data.crecheOwner,
+        id:data.id,
+        location:data.location
     });
 console.log(User)
 }

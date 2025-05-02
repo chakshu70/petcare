@@ -77,7 +77,7 @@ const Second = () => {
               <p className="text-white mb-6 hidden md:block">
                 Join our network of trusted pet care centers and reach thousands of pet owners!
               </p>
-              <Link to="/registercreche">
+              <Link to="/registercreche" state={{editing:false}}>
                 <button className="bg-orange-400 hover:bg-orange-500 text-white px-6 py-2 rounded-full font-semibold transition-all">
                   Register Your Creche
                 </button>
@@ -93,7 +93,7 @@ const Second = () => {
             <p className="text-gray-600 mb-6">
               Expand your business visibility, connect with more pet parents, and be part of a growing trusted community.
             </p>
-            <Link to="/registercreche">
+            <Link to="/registercreche" state={{editing:false}}>
               <button className="bg-orange-400 hover:bg-orange-500 text-white px-6 py-2 rounded-full font-semibold transition-all">
                 Start Now
               </button>
